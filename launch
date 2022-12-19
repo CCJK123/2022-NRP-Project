@@ -1,2 +1,3 @@
-$ roslaunch #activate mobile robot
+$ sudo apt-get install ros-kinetic-gmapping
+$ roslaunch #robot
 $ roslaunch gmapping.launch
