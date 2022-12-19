@@ -1,0 +1,2 @@
+$ roslaunch #activate mobile robot
+$ roslaunch gmapping.launch
