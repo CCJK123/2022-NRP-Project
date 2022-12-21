@@ -1,1 +1,4 @@
-#insert map rviz
+#sudo apt install ros-<ros2-distro>-slam-toolbox
+#git clone -b <ros2-distro>-devel git@github.com:stevemacenski/slam_toolbox.git
+
+roslaunch slam_toolbox online_async_launch.py
