@@ -3,4 +3,4 @@
           args="-d $(find robot_nav)/rviz/robot_map.rviz"/>
 </launch>
 
-#alternatively manually open rviz using 'rosrun rviz rviz' > LaserScan
+# alternatively manually open rviz using 'rosrun rviz rviz' > LaserScan
