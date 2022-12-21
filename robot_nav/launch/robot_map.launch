@@ -1,0 +1,11 @@
+<launch>
+    <arg name="use_rviz" default="false"/>
+    <arg name="map_type" default="gmapping" doc="opt: gmapping,hector,karto,cartographer"/>
+    <group if="$(arg('map_type') == 'gmapping')" >
+        <include file="$(find robot_nav)/launch/library/$(arg map_type).launch"/>
+    </group>
+    <include file="$(find yahboomcar_nav)/launch/library/app.launch"/>
+    <group if="$(arg use_rviz)">
+        <include file="$(find yahboomcar_nav)/launch/view/view_map.launch"/>
+    </group>
+</launch>
