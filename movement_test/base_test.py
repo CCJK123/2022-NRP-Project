@@ -15,3 +15,5 @@ wheel_base = Base(front_left_wheel, front_right_wheel,
 for speed in (1, 0.5, -0.5, -1, 0):
     for angle_deg in range(360):
         wheel_base.move_directional(angle_deg, speed)
+        time.sleep(0.1)
+    time.sleep(5)
