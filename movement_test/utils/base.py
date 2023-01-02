@@ -1,3 +1,5 @@
+import asyncio
+
 import RPi.GPIO as GPIO
 
 from wheel import Wheel
@@ -13,7 +15,7 @@ class Base:
         self.back_left_wheel = back_left_wheel
         self.back_right_wheel = back_right_wheel
 
-    def move_directional(self, angle_deg: float, speed: float, duration_sec: float) -> None:
+    async def move_directional(self, angle_deg: float, speed: float, duration_sec: float) -> None:
         # Bound angle_deg to be 0 <= angle <= 360
         angle_deg = angle_deg % 360
 
@@ -22,33 +24,42 @@ class Base:
 
         # Determine individual wheel movement
         if 0 <= angle_deg < 90:
-            self.front_left_wheel.move(speed, duration_sec)
-            self.front_right_wheel.move(speed * (45-angle_deg)/45,
-                                        duration_sec)
-            self.back_left_wheel.move(speed * (45-angle_deg)/45,
-                                      duration_sec)
-            self.back_right_wheel.move(speed, duration_sec)
+            tasks = [
+                self.front_left_wheel.move(speed, duration_sec),
+                self.front_right_wheel.move(
+                    speed * (45-angle_deg)/45, duration_sec),
+                self.back_left_wheel.move(
+                    speed * (45-angle_deg)/45, duration_sec),
+                self.back_right_wheel.move(speed, duration_sec)
+            ]
         elif 90 <= angle_deg < 180:
-            self.front_left_wheel.move(speed * (135-angle_deg)/45,
-                                       duration_sec)
-            self.front_right_wheel.move(-speed, duration_sec)
-            self.back_left_wheel.move(-speed, duration_sec)
-            self.back_right_wheel.move(speed * (135-angle_deg)/45,
-                                       duration_sec)
+            tasks = [
+                self.front_left_wheel.move(
+                    speed * (135-angle_deg)/45, duration_sec),
+                self.front_right_wheel.move(-speed, duration_sec),
+                self.back_left_wheel.move(-speed, duration_sec),
+                self.back_right_wheel.move(
+                    speed * (135-angle_deg)/45, duration_sec)
+            ]
         elif 180 <= angle_deg < 270:
-            self.front_left_wheel.move(-speed, duration_sec)
-            self.front_right_wheel.move(speed * (angle_deg-225)/45,
-                                        duration_sec)
-            self.back_left_wheel.move(speed * (angle_deg-225)/45,
-                                      duration_sec)
-            self.back_right_wheel.move(-speed, duration_sec)
+            tasks = [
+                self.front_left_wheel.move(-speed, duration_sec),
+                self.front_right_wheel.move(
+                    speed * (angle_deg-225)/45, duration_sec),
+                self.back_left_wheel.move(
+                    speed * (angle_deg-225)/45, duration_sec),
+                self.back_right_wheel.move(-speed, duration_sec)
+            ]
         else:  # 270 <= angle_deg <= 360
-            self.front_left_wheel.move(speed * (angle_deg-315)/45,
-                                       duration_sec)
-            self.front_right_wheel.move(speed, duration_sec)
-            self.back_left_wheel.move(speed, duration_sec)
-            self.back_right_wheel.move(speed * (angle_deg-315)/45,
-                                       duration_sec)
+            tasks = [
+                self.front_left_wheel.move(
+                    speed * (angle_deg-315)/45, duration_sec),
+                self.front_right_wheel.move(speed, duration_sec),
+                self.back_left_wheel.move(speed, duration_sec),
+                self.back_right_wheel.move(
+                    speed * (angle_deg-315)/45, duration_sec)
+            ]
+        await asyncio.wait([asyncio.ensure_future(task) for task in tasks])
 
     def move_rotate_center(self, rotation_rate: float, duration_sec: float) -> None:
         # Take clockwise as positive rotation_rate
