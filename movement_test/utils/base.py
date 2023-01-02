@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+
 from wheel import Wheel
 
 
@@ -12,7 +13,7 @@ class Base:
         self.back_left_wheel = back_left_wheel
         self.back_right_wheel = back_right_wheel
 
-    def move_directional(self, angle_deg: float, speed: float) -> None:
+    def move_directional(self, angle_deg: float, speed: float, duration_sec: float) -> None:
         # Bound angle_deg to be 0 <= angle <= 360
         angle_deg = angle_deg % 360
 
@@ -21,40 +22,48 @@ class Base:
 
         # Determine individual wheel movement
         if 0 <= angle_deg < 90:
-            self.front_left_wheel.move(speed)
-            self.front_right_wheel.move(speed * (45-angle_deg)/45)
-            self.back_left_wheel.move(speed * (45-angle_deg)/45)
-            self.back_right_wheel.move(speed)
+            self.front_left_wheel.move(speed, duration_sec)
+            self.front_right_wheel.move(speed * (45-angle_deg)/45,
+                                        duration_sec)
+            self.back_left_wheel.move(speed * (45-angle_deg)/45,
+                                      duration_sec)
+            self.back_right_wheel.move(speed, duration_sec)
         elif 90 <= angle_deg < 180:
-            self.front_left_wheel.move(speed * (135-angle_deg)/45)
-            self.front_right_wheel.move(-speed)
-            self.back_left_wheel.move(-speed)
-            self.back_right_wheel.move(speed * (135-angle_deg)/45)
+            self.front_left_wheel.move(speed * (135-angle_deg)/45,
+                                       duration_sec)
+            self.front_right_wheel.move(-speed, duration_sec)
+            self.back_left_wheel.move(-speed, duration_sec)
+            self.back_right_wheel.move(speed * (135-angle_deg)/45,
+                                       duration_sec)
         elif 180 <= angle_deg < 270:
-            self.front_left_wheel.move(-speed)
-            self.front_right_wheel.move(speed * (angle_deg-225)/45)
-            self.back_left_wheel.move(speed * (angle_deg-225)/45)
-            self.back_right_wheel.move(-speed)
+            self.front_left_wheel.move(-speed, duration_sec)
+            self.front_right_wheel.move(speed * (angle_deg-225)/45,
+                                        duration_sec)
+            self.back_left_wheel.move(speed * (angle_deg-225)/45,
+                                      duration_sec)
+            self.back_right_wheel.move(-speed, duration_sec)
         else:  # 270 <= angle_deg <= 360
-            self.front_left_wheel.move(speed * (angle_deg-315)/45)
-            self.front_right_wheel.move(speed)
-            self.back_left_wheel.move(speed)
-            self.back_right_wheel.move(speed * (angle_deg-315)/45)
+            self.front_left_wheel.move(speed * (angle_deg-315)/45,
+                                       duration_sec)
+            self.front_right_wheel.move(speed, duration_sec)
+            self.back_left_wheel.move(speed, duration_sec)
+            self.back_right_wheel.move(speed * (angle_deg-315)/45,
+                                       duration_sec)
 
-    def move_rotate_center(self, rotation_rate: float) -> None:
+    def move_rotate_center(self, rotation_rate: float, duration_sec: float) -> None:
         # Take clockwise as positive rotation_rate
 
         # Bound rotation_rate to be -1 <= rotation_rate <= 1
         rotation_rate = min(max(rotation_rate, -1), 1)
 
         # Determine individual wheel movement
-        self.front_left_wheel.move(rotation_rate)
-        self.front_right_wheel.move(-rotation_rate)
-        self.back_left_wheel.move(rotation_rate)
-        self.back_right_wheel.move(-rotation_rate)
+        self.front_left_wheel.move(rotation_rate, duration_sec)
+        self.front_right_wheel.move(-rotation_rate, duration_sec)
+        self.back_left_wheel.move(rotation_rate, duration_sec)
+        self.back_right_wheel.move(-rotation_rate, duration_sec)
 
-    def move_rotate_rear(self, rotation_rate: float) -> None:
-        self.front_left_wheel.move(rotation_rate)
-        self.front_right_wheel.move(-rotation_rate)
-        self.back_left_wheel.move(0)
-        self.back_left_wheel.move(0)
+    def move_rotate_rear(self, rotation_rate: float, duration_sec) -> None:
+        self.front_left_wheel.move(rotation_rate, duration_sec)
+        self.front_right_wheel.move(-rotation_rate, duration_sec)
+        self.back_left_wheel.move(0, duration_sec)
+        self.back_left_wheel.move(0, duration_sec)
