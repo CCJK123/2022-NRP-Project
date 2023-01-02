@@ -21,6 +21,10 @@ async def main():
             await wheel_base.move_directional(angle_deg, speed, 0.1)
         await asyncio.sleep(5)
 
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    # For Python 3.7+
+    # asyncio.run(main())
+
+    # For Python 3.5 to 3.6
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
