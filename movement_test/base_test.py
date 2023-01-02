@@ -1,9 +1,10 @@
 from utils.wheel import Wheel
 from utils.base import Base
 
-import time
 import RPi.GPIO as GPIO
-GPIO.GPIO.setmode(GPIO.BOARD)
+import time
+
+GPIO.setmode(GPIO.BOARD)
 
 front_left_wheel = Wheel(29, 31)
 front_right_wheel = Wheel(32, 33)
