@@ -3,26 +3,26 @@ import time
 
 # Setup connections
 GPIO.setmode(GPIO.BOARD)
-for port in (21, 22, 23, 24, 35, 36, 37, 38):
+for port in (29, 31, 32, 33, 35, 36, 37, 38):
     GPIO.setup(port, GPIO.OUT)
     GPIO.output(port, GPIO.LOW)
 
 for i in range(10):
-    GPIO.output(21, GPIO.HIGH)
+    GPIO.output(29, GPIO.HIGH)
     time.sleep(1.5)
-    GPIO.output(21, GPIO.LOW)
+    GPIO.output(29, GPIO.LOW)
 
-    GPIO.output(22, GPIO.HIGH)
+    GPIO.output(31, GPIO.HIGH)
     time.sleep(1.5)
-    GPIO.output(22, GPIO.LOW)
+    GPIO.output(31, GPIO.LOW)
 
-    GPIO.output(23, GPIO.HIGH)
+    GPIO.output(32, GPIO.HIGH)
     time.sleep(1.5)
-    GPIO.output(23, GPIO.LOW)
+    GPIO.output(32, GPIO.LOW)
 
-    GPIO.output(24, GPIO.HIGH)
+    GPIO.output(33, GPIO.HIGH)
     time.sleep(1.5)
-    GPIO.output(24, GPIO.LOW)
+    GPIO.output(33, GPIO.LOW)
 
     GPIO.output(35, GPIO.HIGH)
     time.sleep(1.5)
@@ -40,7 +40,7 @@ for i in range(10):
     time.sleep(1.5)
     GPIO.output(38, GPIO.LOW)
 
-for port in (21, 22, 23, 24, 35, 36, 37, 38):
+for port in (29, 31, 32, 33, 35, 36, 37, 38):
     GPIO.output(port, GPIO.LOW)
 
 GPIO.cleanup()
