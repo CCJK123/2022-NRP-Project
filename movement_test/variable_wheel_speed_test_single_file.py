@@ -44,8 +44,10 @@ class Wheel:
         speed = min(max(speed, -1), 1)
 
         # Determine individual pin duty cycles
-        await self.port_1_pwm.run(0.5*(speed+1), duration_sec)
-        await self.port_2_pwm.run(1 - 0.5*(speed+1), duration_sec)
+        if speed >= 0:
+            await self.port_1_pwm.run(speed, duration_sec)
+        else:
+            await self.port_2_pwm.run(-speed, duration_sec)
 
 
 async def main():
