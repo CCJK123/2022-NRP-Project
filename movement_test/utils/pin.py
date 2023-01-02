@@ -13,8 +13,7 @@ class Pin():
 
 class PWM(Pin):
     def __init__(self, port_no: int, frequency: int) -> None:
-        super().__init__()
-        self.port_no = port_no
+        super().__init__(port_no)
         self.frequency = frequency
 
     async def run(self, duty_cycle: float, duration_sec: float):
