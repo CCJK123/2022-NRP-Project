@@ -1,0 +1,13 @@
+print('Starting calibration...') 
+calibration = calibrator.calibrate_cameras() 
+calibration.export('../calib_result') 
+print('Calibration complete!') 
+
+calibration = StereoCalibration(input_folder='calib_result') 
+rectified_pair = calibration.rectify((imgLeft, imgRight)) 
+cv2.imshow('Left Calibrated!', rectified_pair[0]) 
+cv2.imshow('Right Calibrated!', rectified_pair[1]) 
+
+# save rectified images
+cv2.imwrite("../rectified_left.jpg", rectified_pair[0]) 
+cv2.imwrite("../rectified_right.jpg", rectified_pair[1]) 
