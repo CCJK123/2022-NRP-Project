@@ -1,0 +1,3 @@
+self.right_warning = 0  
+self.left_warning = 0  
+self.front_warning = 0 
