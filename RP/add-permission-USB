@@ -1,0 +1,2 @@
+$ ls –l /dev/serial/by-id/ 
+$ ls –l /dev/ttyUSB0 # USB_ depending on which USB port the LiDAR is connected to 
